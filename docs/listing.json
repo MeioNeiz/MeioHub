@@ -1,0 +1,21 @@
+{
+  "title": "Meio Hub",
+  "summary": "Every Meio addon you have in one window, with its commands, settings and help, and the ones you could add.",
+  "cfCategory": "Miscellaneous",
+  "cfExtra": [],
+  "wagoCategories": [
+    "Miscellaneous"
+  ],
+  "gallery": [
+    {
+      "file": "before-after.png",
+      "title": "Before and after",
+      "description": "The game's AddOns list shows Meio addons by name only; Meio Hub lists each with its command, Settings and Help, then the ones not installed"
+    },
+    {
+      "file": "tooltip.png",
+      "title": "An addon's details",
+      "description": "The mouse on Meio DPS: what it does, its slash commands and where its settings are"
+    }
+  ]
+}

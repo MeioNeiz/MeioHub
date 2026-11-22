@@ -1,0 +1,13 @@
+## Interface: 16001
+## Title: MeioHub
+## Notes: Your Meio addons in one list, with their settings, help and slash commands, and the ones you could add. /meiohub
+## Version: 1.0.0
+## Author: MeioNeiz
+## X-Website: https://github.com/MeioNeiz/MeioHub
+## X-License: MIT
+## Category: Meio
+## IconTexture: Interface\Icons\Trade_Engineering
+## AddonCompartmentFunc: MeioHub_OnAddonCompartmentClick
+## SavedVariables: MeioHubDB
+
+MeioHub.lua
