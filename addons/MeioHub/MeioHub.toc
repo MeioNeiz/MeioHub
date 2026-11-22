@@ -5,6 +5,8 @@
 ## Author: MeioNeiz
 ## X-Website: https://github.com/MeioNeiz/MeioHub
 ## X-License: MIT
+## X-Curse-Project-ID: 1824270
+## X-Wago-ID: mKOa2kNx
 ## Category: Meio
 ## IconTexture: Interface\Icons\Trade_Engineering
 ## AddonCompartmentFunc: MeioHub_OnAddonCompartmentClick
