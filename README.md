@@ -25,6 +25,11 @@ No settings of its own. The same list is in Esc > Options > AddOns > MeioHub.
 - `/meiohub reset` puts the window back in the middle
 - `/meiohub help` lists the commands
 
+## Coming soon
+
+- Search across every Meio addon's settings
+- A note when one of your Meio addons has a newer version
+
 ## Install
 
 Use your addon manager (CurseForge, Wago), or unzip a GitHub release into
