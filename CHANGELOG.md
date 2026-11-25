@@ -1,5 +1,10 @@
 # Meio Hub
 
+## 1.1.1
+
+- "More Meio addons" no longer suggests Meionomics: it is still an early test and not
+  ready for everyone yet. If you already have it, it still shows in your list as before
+
 ## 1.1.0
 
 - Newer versions: when a guildmate or groupmate with MeioHub has a newer version of one of

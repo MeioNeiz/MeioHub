@@ -62,8 +62,6 @@ local RELEASED = {
     "Your equipped gear beside profession trainer recipes, like any other item" },
   { "MeioTSMBrowse", "Meio TSM Browse", "INV_Scroll_03",
     "Browse TSM by category like the normal AH; recipe tooltips show skill-ups" },
-  { "Meionomics", "Meionomics", "INV_Misc_Coin_01",
-    "Cheapest skill-ups and best-profit crafts, plus AH buy and sell help" },
 }
 
 local db, window, category
