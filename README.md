@@ -28,6 +28,7 @@ No settings of its own. The same list is in Esc > Options > AddOns > MeioHub.
 ## Coming soon
 
 - A note when one of your Meio addons has a newer version
+- When a Meio addon hits an error, a chat line says which one and where to report it
 
 ## Install
 
