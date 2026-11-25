@@ -14,32 +14,56 @@ local SLASH_W, SETTINGS_W, HELP_W = 96, 66, 46
 
 -- Released Meio addons, listed when not installed: name, listing title, icon, what it does
 local RELEASED = {
-  { "AutoRank", "Meio AutoRank", "INV_Misc_Book_09",
-    "Your action bars move up to each new spell rank" },
   { "MeioAlts", "Meio Alts", "INV_Misc_GroupNeedMore",
-    "All your characters' gold, mail and rested XP in one list" },
+    "Gold, rested XP and mail for every character, in one list beside the Esc menu" },
+  { "MeioAutoRank", "Meio Auto Rank", "INV_Misc_Book_09",
+    "New spell ranks go on your bars by themselves; low ranks you chose stay" },
+  { "MeioAutoRunTurn", "Meio Auto Run Turn", "Ability_Rogue_Sprint",
+    "Turn with A and D while autorunning; they strafe again when you stop" },
   { "MeioBags", "Meio Bags", "INV_Misc_Bag_08",
-    "One key deletes your cheapest junk; clams and sacks open" },
+    "One key deletes your cheapest junk when bags are full; vendors buy the rest" },
+  { "MeioBiSExtras", "Meio BiS Extras", "INV_Chest_Cloth_17",
+    "Forever Leveling BiS tooltips compare without Shift; Alt-click for Wowhead" },
+  { "MeioBuffThanks", "Meio Buff Thanks", "Spell_Holy_WordFortitude",
+    "Thanks players who buff you with a whisper, picked from your own lines" },
   { "MeioDPS", "Meio DPS", "Spell_Shadow_ShadowBolt",
-    "Damage and DPS on spell, attack and weapon tooltips" },
+    "Damage, DPS and best rank per mana on your spell and attack tooltips" },
   { "MeioFixes", "Meio Fixes", "INV_Misc_Wrench_01",
-    "Stops Lua errors in the auction house and profession windows" },
+    "Create Auction works again on trade goods; no more auction house Lua errors" },
+  { "MeioFlareFixes", "Meio Flare Fixes", "INV_Misc_Wrench_01",
+    "Fixes FlareUI chat tabs eating clicks on bank, vendor and quest windows" },
+  { "MeioFlareQuestie", "Meio Flare Questie", "INV_Misc_Map_01",
+    "Questie in FlareUI's quest tracker: yards to each quest and turn-in NPCs" },
   { "MeioFlightTimes", "Meio Flight Times", "Ability_Mount_Gryphon_01",
-    "Flight times on the flight map and a timer while you fly" },
+    "Flight times on the flight map, even for routes you've never flown" },
+  { "MeioMail", "Meio Mail", "INV_Letter_15",
+    "Sent mail history beside the mailbox: who to, items, gold and when" },
   { "MeioMap", "Meio Map", "INV_Misc_Map_01",
-    "Zone levels and fishing skill on the world map" },
+    "Zone level range and fishing skill when you hover the world map" },
+  { "MeioMeterHover", "Meio Meter Hover", "INV_Misc_Spyglass_02",
+    "Hover a player in Blizzard's damage meter to see their spells, no clicking" },
+  { "MeioNextStop", "Meio Next Stop", "Ability_Mount_Gryphon_01",
+    "Get off a flight early: a button that lands you at the next flight master" },
   { "MeioPets", "Meio Pets", "Ability_Hunter_MendPet",
-    "A warning when your pet's health runs low or it dies" },
+    "Warns hunters and warlocks when their pet is low, dead, or not back after a fight" },
   { "MeioPlates", "Meio Plates", "Ability_DualWield",
-    "Nameplates show damage coming and hits left to kill" },
+    "Shows on enemy nameplates how many hits to kill, counting your DoTs and pet" },
+  { "MeioQoL", "Meio QoL", "INV_Misc_Gear_01",
+    "Tops up water and reagents at vendors, skips NPC chat, loots at once" },
+  { "MeioShards", "Meio Shards", "INV_Misc_Gem_Amethyst_02",
+    "Soul Shard count on screen; one click deletes the extras over your cap" },
+  { "MeioSpikeCheck", "Meio Spike Check", "INV_Misc_PocketWatch_02",
+    "Finds out which addon is behind the stutters and freezes in your game" },
   { "MeioStats", "Meio Stats", "INV_Misc_PocketWatch_01",
-    "Levelling speed, loot luck and money made per item" },
-  { "MeterHover", "Meio MeterHover", "INV_Misc_Spyglass_02",
-    "Hover a damage meter row to see that player's spells" },
-  { "NextStop", "Meio Next Stop", "Ability_Mount_Gryphon_01",
-    'A "get off at next stop" button on flight paths' },
-  { "TrainerCompare", "Meio TrainerCompare", "Trade_Tailoring",
-    "Your equipped gear beside trainer recipe tooltips" },
+    "XP per hour, time to level, quest drop luck and gold earned, in one window" },
+  { "MeioTooltipFold", "Meio Tooltip Fold", "INV_Misc_Note_02",
+    "Shorter item tooltips: Pawn and RestedXP lines move into Blizzard's own" },
+  { "MeioTrainerCompare", "Meio Trainer Compare", "Trade_Tailoring",
+    "Your equipped gear beside profession trainer recipes, like any other item" },
+  { "MeioTSMBrowse", "Meio TSM Browse", "INV_Scroll_03",
+    "Browse TSM by category like the normal AH; recipe tooltips show skill-ups" },
+  { "Meionomics", "Meionomics", "INV_Misc_Coin_01",
+    "Cheapest skill-ups and best-profit crafts, plus AH buy and sell help" },
 }
 
 local db, window, category
@@ -83,7 +107,7 @@ local function SlashIndex()
   return byOwner, keys
 end
 
--- The addon's own key: named after it (LEVELINGBISEXTRASORDER for LevelingBiSExtras),
+-- The addon's own key: named after it (MEIOBISEXTRASORDER for MeioBiSExtras),
 -- shortest first; else the first key it owns
 local function FindSlash(name, byOwner, keys)
   local want, owned, best = Norm(name), byOwner[name], nil
@@ -233,7 +257,7 @@ local function Row(L, i)
     ShowTip(self, "Settings", "Opens Esc > Options > AddOns > " .. row.addon.title .. ".")
   end)
   row.slash = row:CreateFontString(nil, "ARTWORK", "GameFontNormalSmall")
-  row.slash:SetPoint("RIGHT", row.settings, "LEFT", -8, 0)
+  row.slash:SetPoint("RIGHT", -8, 0)
   row.slash:SetWidth(SLASH_W)
   row.slash:SetJustifyH("RIGHT")
   row.slash:SetWordWrap(false)
@@ -260,6 +284,8 @@ local function SetHeader(row)
   row.notes:SetText("Not installed. Search for them on CurseForge or Wago.")
   row.notes:SetFontObject("GameFontDisableSmall")
   row.slash:SetText("")
+  row.slash:ClearAllPoints()
+  row.slash:SetPoint("RIGHT", -8, 0)
   row.settings:Hide()
   row.help:Hide()
 end
@@ -289,6 +315,13 @@ local function SetRow(row, a)
   end
   row.settings:SetShown(a.category ~= nil)
   row.help:SetShown(a.slash ~= nil)
+  -- no buttons: the label moves right so the notes get the buttons' room
+  row.slash:ClearAllPoints()
+  if a.category or a.slash then
+    row.slash:SetPoint("RIGHT", row.settings, "LEFT", -8, 0)
+  else
+    row.slash:SetPoint("RIGHT", -8, 0)
+  end
 end
 
 local function Fill(L)

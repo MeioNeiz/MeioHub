@@ -1,5 +1,11 @@
 # Meio Hub
 
+## 1.0.2
+
+- Knows every Meio addon released so far (25), so the ones you don't have show under "More
+  Meio addons", each with the same one-line summary as its CurseForge page
+- Rows for addons you don't have show their whole summary, not a cut-off one
+
 ## 1.0.1
 
 - Knows the new Meio Bags, Meio Fixes and Meio Flight Times, so they show under "More Meio
