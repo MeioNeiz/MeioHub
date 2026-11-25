@@ -1,5 +1,15 @@
 # Meio Hub
 
+## 1.1.0
+
+- Newer versions: when a guildmate or groupmate with MeioHub has a newer version of one of
+  your Meio addons, one chat line says so and its row shows "x.y.z out"
+  (`/meiohub versions off` stops it)
+- Errors: when one of your Meio addons hits a Lua error, one chat line names it with its
+  GitHub issues page, and its row shows how many errors this session
+  (`/meiohub errors off` stops it)
+- Meio DPS's summary now mentions its numbers on action buttons
+
 ## 1.0.2
 
 - Knows every Meio addon released so far (25), so the ones you don't have show under "More

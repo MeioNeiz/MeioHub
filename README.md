@@ -18,17 +18,19 @@ slash command.
 - Hover a row for what the addon does, all its commands and where its settings are
 - Addons you've turned off are shown greyed, with how to turn them back on
 - Below them, the Meio addons you don't have yet, with a line on what each does
+- When a guildmate or groupmate has a newer version of one of your Meio addons, one chat
+  line says so and its row shows "1.2.0 out". MeioHub shares your Meio versions with your
+  guild and group in a hidden addon message, never in chat
+- When one of your Meio addons hits a Lua error, one chat line names it with the page to
+  report it on; its row counts the errors and the hover shows the message
 
-No settings of its own. The same list is in Esc > Options > AddOns > MeioHub.
+The same list is in Esc > Options > AddOns > MeioHub.
 
 - `/meiohub` (or `/mh`) opens or closes the window, also from the minimap addon menu
 - `/meiohub reset` puts the window back in the middle
+- `/meiohub versions on|off` turns the newer version notes on or off (off also stops sharing)
+- `/meiohub errors on|off` turns the error notes on or off
 - `/meiohub help` lists the commands
-
-## Coming soon
-
-- A note when one of your Meio addons has a newer version
-- When a Meio addon hits an error, a chat line says which one and where to report it
 
 ## Install
 

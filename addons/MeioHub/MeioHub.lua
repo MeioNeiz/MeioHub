@@ -2,7 +2,7 @@
 -- each does, its Settings panel, its /cmd help and slash command; then the released ones
 -- not installed. In the /meiohub window and in Esc > Options > AddOns > MeioHub. Only reads
 -- other addons, never changes them.
-local ADDON = ...
+local ADDON, ns = ...
 
 local PREFIX = "|cffb090ffMeioHub:|r "
 local AUTHOR, CATEGORY = "MeioNeiz", "Meio"
@@ -27,7 +27,7 @@ local RELEASED = {
   { "MeioBuffThanks", "Meio Buff Thanks", "Spell_Holy_WordFortitude",
     "Thanks players who buff you with a whisper, picked from your own lines" },
   { "MeioDPS", "Meio DPS", "Spell_Shadow_ShadowBolt",
-    "Damage, DPS and best rank per mana on your spell and attack tooltips" },
+    "Damage and DPS on tooltips and action buttons, plus best rank per mana" },
   { "MeioFixes", "Meio Fixes", "INV_Misc_Wrench_01",
     "Create Auction works again on trade goods; no more auction house Lua errors" },
   { "MeioFlareFixes", "Meio Flare Fixes", "INV_Misc_Wrench_01",
@@ -69,6 +69,7 @@ local RELEASED = {
 local db, window, category
 
 local function Print(msg) print(PREFIX .. msg) end
+ns.Print = Print
 
 local function Plain(s)
   if type(s) ~= "string" then return nil end
@@ -148,6 +149,7 @@ local function Collect()
   table.sort(list, function(x, y) return x.title:lower() < y.title:lower() end)
   return list
 end
+ns.Collect = Collect
 
 local function NotInstalled(installed)
   local have, out = {}, {}
@@ -196,6 +198,21 @@ local function RowTooltip(row)
   GameTooltip:SetPoint("TOPLEFT", row, "TOPRIGHT", 36, 0)
   GameTooltip:AddDoubleLine(a.title, a.version, nil, nil, nil, 0.6, 0.6, 0.6)
   if a.notes ~= "" then GameTooltip:AddLine(a.notes, 1, 1, 1, true) end
+  local newer = ns.Newer and ns.Newer(a)
+  if newer then
+    GameTooltip:AddLine(("Version %s is out (seen on %s). Update with CurseForge or Wago.")
+      :format(newer.version, newer.from), 0.25, 1, 0.25, true)
+  end
+  local errs = ns.Errors and ns.Errors(a)
+  if errs then
+    GameTooltip:AddLine(("%d Lua %s this session:"):format(errs.count,
+      errs.count == 1 and "error" or "errors"), 1, 0.3, 0.3)
+    GameTooltip:AddLine(errs.message, 1, 0.6, 0.6, true)
+    local link = ns.IssuesLink(a.name)
+    local sack = C_AddOns.IsAddOnLoaded("BugSack") and "Full report: /bugsack. " or ""
+    local report = link and ("Report it at " .. link .. ".") or ""
+    GameTooltip:AddLine(sack .. report, 0.6, 0.6, 0.6, true)
+  end
   if a.slash then
     local cmds = table.concat(Commands(a.slash), ", ")
     GameTooltip:AddDoubleLine("Commands", cmds, nil, nil, nil, 1, 1, 1)
@@ -302,6 +319,13 @@ local function SetRow(row, a)
   row.icon:SetDesaturated(not (a.loaded or a.missing))
   row.icon:SetAlpha(a.loaded and 1 or 0.5)
   local version = a.version and ("  |cff999999" .. a.version .. "|r") or ""
+  local newer = ns.Newer and ns.Newer(a)
+  if newer then version = version .. "  |cff40ff40" .. newer.version .. " out|r" end
+  local errs = ns.Errors and ns.Errors(a)
+  if errs then
+    version = version .. ("  |cffff5050%d %s|r"):format(errs.count,
+      errs.count == 1 and "error" or "errors")
+  end
   row.title:SetText(a.title .. version)
   row.title:SetFontObject(a.loaded and "GameFontNormal" or "GameFontDisable")
   row.notes:SetText(a.notes)
@@ -414,6 +438,10 @@ local function CreateWindow()
   Place()
 end
 
+function ns.Refill()
+  if window and window:IsShown() then Fill(window.list) end
+end
+
 local function Toggle()
   if not window then CreateWindow() end
   window:SetShown(not window:IsShown())
@@ -452,6 +480,8 @@ local HELP = {
   "your Meio addons in one list, with their settings, help and slash commands",
   "  |cffffd100/meiohub|r - open or close the list (also |cffffd100/mh|r)",
   "  |cffffd100/meiohub reset|r - put the window back",
+  "  |cffffd100/meiohub versions on||off|r - tell me when a Meio addon has a newer version",
+  "  |cffffd100/meiohub errors on||off|r - say which Meio addon a Lua error came from",
   "  Settings: Esc > Options > AddOns > MeioHub (|cffffd100/meiohub settings|r)",
 }
 
@@ -471,6 +501,12 @@ SlashCmdList.MEIOHUB = function(msg)
     Print("window back in the middle of the screen")
   elseif cmd == "settings" or cmd == "options" then
     if not OpenOwnSettings() then Help() end
+  elseif cmd == "versions on" or cmd == "versions off" then
+    db.versions = cmd == "versions on"
+    Print("newer version notes " .. (db.versions and "on" or "off"))
+  elseif cmd == "errors on" or cmd == "errors off" then
+    db.errors = cmd == "errors on"
+    Print("Meio addon error notes " .. (db.errors and "on" or "off"))
   elseif cmd == "help" or cmd == "?" then
     Help()
   else
@@ -488,6 +524,9 @@ events:SetScript("OnEvent", function(_, event, name)
   if event == "ADDON_LOADED" and name == ADDON then
     MeioHubDB = MeioHubDB or {}
     db = MeioHubDB
+    if db.versions == nil then db.versions = true end
+    if db.errors == nil then db.errors = true end
+    ns.db = db
   elseif event == "PLAYER_LOGIN" then
     local ok, err = pcall(RegisterSettings)
     if not ok then geterrorhandler()(err) end
