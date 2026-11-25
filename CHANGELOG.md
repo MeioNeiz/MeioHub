@@ -1,5 +1,12 @@
 # Meio Hub
 
+## 1.1.2
+
+- "More Meio addons" suggests Meionomics again: it is ready for everyone. It finds the
+  cheapest way to level your professions and the crafts that sell for the most
+- Meio Shards' summary matches what it does now: one key deletes the Soul Shards over your
+  cap or soul bag, never in combat
+
 ## 1.1.1
 
 - "More Meio addons" no longer suggests Meionomics: it is still an early test and not

@@ -51,7 +51,7 @@ local RELEASED = {
   { "MeioQoL", "Meio QoL", "INV_Misc_Gear_01",
     "Tops up water and reagents at vendors, skips NPC chat, loots at once" },
   { "MeioShards", "Meio Shards", "INV_Misc_Gem_Amethyst_02",
-    "Soul Shard count on screen; one click deletes the extras over your cap" },
+    "One key deletes the Soul Shards over your cap or soul bag, never in combat" },
   { "MeioSpikeCheck", "Meio Spike Check", "INV_Misc_PocketWatch_02",
     "Finds out which addon is behind the stutters and freezes in your game" },
   { "MeioStats", "Meio Stats", "INV_Misc_PocketWatch_01",
@@ -62,6 +62,8 @@ local RELEASED = {
     "Your equipped gear beside profession trainer recipes, like any other item" },
   { "MeioTSMBrowse", "Meio TSM Browse", "INV_Scroll_03",
     "Browse TSM by category like the normal AH; recipe tooltips show skill-ups" },
+  { "Meionomics", "Meionomics", "INV_Misc_Coin_01",
+    "Cheapest skill-ups and best-profit crafts, plus AH buy and sell help" },
 }
 
 local db, window, category

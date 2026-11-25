@@ -1,7 +1,7 @@
 ## Interface: 16001
 ## Title: MeioHub
 ## Notes: Your Meio addons in one list, with their settings, help and slash commands, and the ones you could add. /meiohub
-## Version: 1.1.1
+## Version: 1.1.2
 ## Author: MeioNeiz
 ## X-Website: https://github.com/MeioNeiz/MeioHub
 ## X-License: MIT
