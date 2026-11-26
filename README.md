@@ -1,7 +1,7 @@
 # Meio Hub
 
-All your Meio addons in one window: their commands, settings and help, and the ones you
-could add.
+Got more than one Meio addon? Their commands, settings and help in one window, and the
+others you might like.
 
 For WoW Forever.
 
