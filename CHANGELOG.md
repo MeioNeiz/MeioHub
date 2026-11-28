@@ -1,5 +1,12 @@
 # Meio Hub
 
+## 1.1.3
+
+- "More Meio addons" no longer suggests Meio Tooltip Fold when you have Meio Tooltips (its
+  new name)
+- New names in the list: Meio Autorun, Meio Nameplates
+- Ready for Meio Errors (coming soon): when it is installed, Lua errors are read from it
+
 ## 1.1.2
 
 - "More Meio addons" suggests Meionomics again: it is ready for everyone. It finds the

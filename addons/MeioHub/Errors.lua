@@ -1,7 +1,7 @@
 -- Which Meio addon broke: a Lua error or blocked action whose file path (or "AddOn 'Name'")
 -- names one of ours gets one chat line per addon per session, with where to report it, and
--- a mark on its row. With BugGrabber its errors are read (it owns the error handler);
--- without, the handler is wrapped and Blizzard's own goes on as before.
+-- a mark on its row. Read from MeioErrors, else BugGrabber (it owns the error handler);
+-- with neither, the handler is wrapped and Blizzard's own goes on as before.
 -- Off: /meiohub errors off.
 local ADDON, ns = ...
 
@@ -113,8 +113,26 @@ local function WrapHandler()
   end)
 end
 
-local usingBugGrabber = _G.BugGrabber and EventRegistry and true
-if usingBugGrabber then
+-- MeioErrors counts repeats on one entry per message, per session in sessionCounter
+local read = {} -- entry -> its sessionCounter when last read
+local function ReadMeio(e)
+  if type(e) ~= "table" or e.session ~= MeioErrors.GetSession() then return end
+  local n = tonumber(e.sessionCounter) or 1
+  local new = n - (read[e] or 0)
+  read[e] = n
+  if new > 0 then Record(e.message, e.stack, new) end
+end
+
+local function ScanMeioErrors()
+  for _, e in ipairs(MeioErrors.GetErrors() or {}) do ReadMeio(e) end
+end
+
+-- MeioErrors first: it loads before us and also reads BugGrabber when that keeps the handler
+local usingMeioErrors = type(_G.MeioErrors) == "table" and MeioErrors.Listen and true
+local usingBugGrabber = not usingMeioErrors and _G.BugGrabber and EventRegistry and true
+if usingMeioErrors then
+  MeioErrors.Listen(function(e) pcall(ReadMeio, e) end)
+elseif usingBugGrabber then
   EventRegistry:RegisterCallback("BugGrabber.BugGrabbed", FromBugGrabber, ns)
 else
   WrapHandler()
@@ -123,8 +141,9 @@ end
 local f = CreateFrame("Frame")
 f:RegisterEvent("PLAYER_LOGIN")
 f:SetScript("OnEvent", function()
-  if usingBugGrabber then
-    local ok, err = pcall(ScanBugGrabber)
+  local scan = usingMeioErrors and ScanMeioErrors or usingBugGrabber and ScanBugGrabber
+  if scan then
+    local ok, err = pcall(scan)
     if not ok then geterrorhandler()(err) end
   end
 end)
